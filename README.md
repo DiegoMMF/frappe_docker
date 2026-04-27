@@ -1,19 +1,12 @@
-<div align="center">
-  <img src="docs/public/frappe-docker.png" alt="Frappe Docker" width="80" />
-  <h1>Frappe Docker</h1>
-  <p>Docker images and orchestration for Frappe applications.</p>
-  <p>
-    <a href="https://github.com/frappe/frappe_docker/actions/workflows/core-build-stable.yml">
-      <img src="https://img.shields.io/github/actions/workflow/status/frappe/frappe_docker/core-build-stable.yml?branch=main&label=Build%20Stable" alt="Build Stable" />
-    </a>
-    <a href="https://github.com/frappe/frappe_docker/actions/workflows/core-build-develop.yml">
-      <img src="https://img.shields.io/github/actions/workflow/status/frappe/frappe_docker/core-build-develop.yml?branch=main&label=Build%20Develop" alt="Build Develop" />
-    </a>
-    <a href="https://frappe.github.io/frappe_docker/">
-      <img src="https://img.shields.io/badge/Docs-Open%20Site-0A7EA4" alt="Docs" />
-    </a>
-  </p>
-</div>
+# Frappe Docker
+
+![Frappe Docker](docs/public/frappe-docker.png)
+
+Docker images and orchestration for Frappe applications.
+
+[![Build Stable](https://img.shields.io/github/actions/workflow/status/frappe/frappe_docker/core-build-stable.yml?branch=main&label=Build%20Stable)](https://github.com/frappe/frappe_docker/actions/workflows/core-build-stable.yml)
+[![Build Develop](https://img.shields.io/github/actions/workflow/status/frappe/frappe_docker/core-build-develop.yml?branch=main&label=Build%20Develop)](https://github.com/frappe/frappe_docker/actions/workflows/core-build-develop.yml)
+[![Docs](https://img.shields.io/badge/Docs-Open%20Site-0A7EA4)](https://frappe.github.io/frappe_docker/)
 
 ## What is this?
 
@@ -56,7 +49,7 @@ frappe_docker/
 
 The full `frappe_docker` documentation is available in [`docs/`](docs/) and published at [frappe.github.io/frappe_docker](https://frappe.github.io/frappe_docker/).
 
-### Recommended entry points:
+### Recommended entry points
 
 - **New here:** [Getting Started Guide](docs/getting-started.md)
 - **Choosing a setup:** [Deployment methods](docs/01-getting-started/01-choosing-a-deployment-method.md)
@@ -103,6 +96,13 @@ Wait for a couple of minutes for ERPNext site to be created or check `create-sit
 ## Contributing
 
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Versioning and Releases
+
+This fork uses SemVer tags (`vX.Y.Z`) for releases and maintains a VERSION file and CHANGELOG.
+
+- Release process: [docs/24_RELEASE_PROCESS_SEMVER.md](docs/24_RELEASE_PROCESS_SEMVER.md)
+- Release checklist: [docs/25_RELEASE_CHECKLIST.md](docs/25_RELEASE_CHECKLIST.md)
 
 This repository is only for container related stuff. You also might want to contribute to:
 

@@ -1,0 +1,34 @@
+name: Gemar CI PR
+
+on:
+  pull_request:
+    branches:
+      - deploy/gemar-v16
+    paths:
+      - images/custom/Containerfile
+      - resources/**
+      - .github/workflows/ci-pr.yml
+      - VERSION
+      - CHANGELOG.md
+  workflow_dispatch:
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build custom image
+        run: |
+          docker build --pull \
+            -f images/custom/Containerfile \
+            -t frappe-custom:pr-${{ github.sha }} \
+            .
+
+      - name: Smoke test image
+        run: |
+          docker run --rm frappe-custom:pr-${{ github.sha }} python --version
+          docker run --rm frappe-custom:pr-${{ github.sha }} bash -lc "command -v bench >/dev/null && bench --version"
