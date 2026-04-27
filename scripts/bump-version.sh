@@ -41,24 +41,54 @@ if grep -q "^## \[$NEW_VERSION\]" CHANGELOG.md; then
   exit 1
 fi
 
+# Move Unreleased content into the new version section and reset Unreleased.
+# State machine: 0=before-unreleased, 1=in-unreleased-content, 2=done
 awk -v new_ver="$NEW_VERSION" -v date="$DATE_UTC" '
-  BEGIN { inserted=0 }
-  /^## \[Unreleased\]$/ {
-    print
+  BEGIN { state=0 }
+
+  # Match the Unreleased header
+  state == 0 && /^## \[Unreleased\]/ {
+    print "## [Unreleased]"
     print ""
-    print "## [" new_ver "] - " date
-    inserted=1
+    state = 1
     next
   }
+
+  # Accumulate lines between Unreleased and the next version header
+  state == 1 && /^## \[/ {
+    # Emit new version header followed by accumulated content
+    print "## [" new_ver "] - " date
+    print ""
+    for (i = 0; i < buf_len; i++) {
+      print buf[i]
+    }
+    print ""
+    # Now print the current line (the old version header)
+    print
+    state = 2
+    next
+  }
+
+  state == 1 {
+    buf[buf_len++] = $0
+    next
+  }
+
   { print }
+
   END {
-    if (inserted == 0) {
-      exit 2
+    # Handle case where Unreleased is the only version section (no next ## [ found)
+    if (state == 1) {
+      print "## [" new_ver "] - " date
+      print ""
+      for (i = 0; i < buf_len; i++) {
+        print buf[i]
+      }
     }
   }
-' CHANGELOG.md > CHANGELOG.md.tmp
+' CHANGELOG.md >CHANGELOG.md.tmp
 
 mv CHANGELOG.md.tmp CHANGELOG.md
-printf "%s" "$NEW_VERSION" > VERSION
+printf "%s\n" "$NEW_VERSION" >VERSION
 
 echo "Bumped version from $CURRENT_VERSION to $NEW_VERSION"

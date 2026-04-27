@@ -99,10 +99,13 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 ## Versioning and Releases
 
-This fork uses SemVer tags (`vX.Y.Z`) for releases and maintains a VERSION file and CHANGELOG.
+This fork uses SemVer tags (`vX.Y.Z`) for releases cut from `deploy/gemar-v16`.
 
-- Release process: [docs/24_RELEASE_PROCESS_SEMVER.md](docs/24_RELEASE_PROCESS_SEMVER.md)
-- Release checklist: [docs/25_RELEASE_CHECKLIST.md](docs/25_RELEASE_CHECKLIST.md)
+- `VERSION` — current version number
+- `CHANGELOG.md` — tracks all changes ([Keep a Changelog](https://keepachangelog.com/))
+- `scripts/bump-version.sh` — bumps VERSION and promotes Unreleased in CHANGELOG
+
+Release flow: `bump-version.sh X.Y.Z` → commit → tag `vX.Y.Z` → push → CI builds + publishes.
 
 This repository is only for container related stuff. You also might want to contribute to:
 

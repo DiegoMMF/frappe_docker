@@ -15,16 +15,14 @@ conventional_commits = true
 filter_unconventional = true
 split_commits = false
 commit_preprocessors = []
-
-[git.commit_parsers]
-message = "^feat"; group = "Features"
-message = "^fix"; group = "Fixes"
-message = "^docs"; group = "Docs"
-message = "^refactor"; group = "Refactors"
-message = "^perf"; group = "Performance"
-message = "^test"; group = "Tests"
-message = "^chore"; group = "Chores"
-message = "^ci"; group = "CI"
-
-[git.tag_pattern]
-pattern = "^v"
+tag_pattern = "^v"
+commit_parsers = [
+  { message = "^feat", group = "Features" },
+  { message = "^fix", group = "Fixes" },
+  { message = "^docs", group = "Docs" },
+  { message = "^refactor", group = "Refactors" },
+  { message = "^perf", group = "Performance" },
+  { message = "^test", group = "Tests" },
+  { message = "^chore", group = "Chores" },
+  { message = "^ci", group = "CI" },
+]
