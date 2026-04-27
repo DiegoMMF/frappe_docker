@@ -17,6 +17,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Ensure release is cut from deploy branch
+        env:
+          DEPLOY_BRANCH: deploy/gemar-v16
+          GIT_SHA: ${{ github.sha }}
+        run: |
+          git fetch --no-tags origin "+refs/heads/*:refs/remotes/origin/*"
+
+          if ! git merge-base --is-ancestor "$GIT_SHA" "origin/$DEPLOY_BRANCH"; then
+            echo "Tag commit $GIT_SHA is not contained in origin/$DEPLOY_BRANCH."
+            echo "Create/push the release tag from a commit that is already on $DEPLOY_BRANCH."
+            exit 1
+          fi
 
       - name: Validate SemVer tag
         env:
@@ -102,6 +117,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Generate release notes
         uses: orhun/git-cliff-action@v3
