@@ -9,6 +9,9 @@ ARG CACHE_BUST=""
 
 USER frappe
 
+# Expect a named BuildKit context: --build-context gemar_chatbot_src=/opt/frappe-multi-tenant/local_apps/gemar_chatbot
+COPY --from=gemar_chatbot_src --chown=frappe:frappe . /opt/frappe/local_apps/gemar_chatbot
+
 RUN --mount=type=secret,id=apps_json,target=/opt/frappe/apps.json,uid=1000,gid=1000 \
   : "${CACHE_BUST}" && \
   export APP_INSTALL_ARGS="" && \
@@ -24,6 +27,8 @@ RUN --mount=type=secret,id=apps_json,target=/opt/frappe/apps.json,uid=1000,gid=1
     --verbose \
     /home/frappe/frappe-bench && \
   cd /home/frappe/frappe-bench && \
+  cp -a /opt/frappe/local_apps/gemar_chatbot apps/gemar_chatbot && \
+  /home/frappe/frappe-bench/env/bin/pip install --no-cache-dir -e apps/gemar_chatbot && \
   echo "{}" > sites/common_site_config.json && \
   find apps -mindepth 1 -path "*/.git" | xargs rm -fr
 
